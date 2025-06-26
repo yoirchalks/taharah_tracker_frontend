@@ -14,6 +14,8 @@ import { RouterLink } from '@angular/router';
   styleUrl: './sign-up.component.css',
 })
 export class SignUpComponent {
+  disabled = true;
+
   signUpForm = new FormGroup({
     name: new FormControl('', [
       Val.minLength(8),
@@ -31,5 +33,14 @@ export class SignUpComponent {
       Val.maxLength(25),
       Val.required,
     ]),
+    repeatPassword: new FormControl('', [
+      Val.minLength(8),
+      Val.maxLength(25),
+      Val.required,
+    ]),
   });
+
+  onSubmitForm() {
+    this.disabled = false;
+  }
 }

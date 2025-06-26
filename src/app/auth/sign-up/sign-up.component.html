@@ -1,1 +1,23 @@
-<button><a routerLink="../logIn">Go to log in</a></button>
+<h1>Begin Your Journey Here</h1>
+
+<form (submit)="onSubmitForm()">
+  <div class="name-container">
+    <label for="name">Enter your name here</label>
+    <input type="text" placeholder="Name" />
+  </div>
+  <div class="email-container">
+    <label for="email">Enter your email here</label>
+    <input type="text" placeholder="Email" />
+  </div>
+  <div class="password-container">
+    <label for="name">Enter password here</label>
+    <input type="password" placeholder="Password" />
+  </div>
+  <div class="repeat-password-container">
+    <label for="name">Repeat password</label>
+    <input type="password" placeholder="Repeat password" />
+  </div>
+  <button type="submit">Submit Form</button>
+</form>
+
+<button [disabled]="disabled"><a routerLink="../logIn">Go to log in</a></button>
