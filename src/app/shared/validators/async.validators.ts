@@ -11,7 +11,7 @@ export class AsyncValidators {
     const usersService = inject(UsersService);
     return (control: AbstractControl) => {
       const email = control.value;
-      if (!email) return of(null);
+      if (!email || !control.valid) return of(null);
       return usersService.checkEmailUnique(email).pipe(
         map((isUnique) => (isUnique ? null : { emailTaken: true })),
         catchError(() => of({ emailCheckFailed: true }))
