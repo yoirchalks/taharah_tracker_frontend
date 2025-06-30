@@ -1,27 +1,74 @@
-<h1>Begin Your Journey Here</h1>
+<div class="form-container">
+  <h1>Begin Your Journey Here</h1>
 
-<form (ngSubmit)="onSubmitForm()" [formGroup]="signUpForm">
-  <div class="name-container">
-    <label for="name">Enter your name here</label>
-    <input type="text" placeholder="Name" formControlName="name" />
-  </div>
-  <div class="email-container">
-    <label for="email">Enter your email here</label>
-    <input type="text" placeholder="Email" formControlName="email" />
-  </div>
-  <div class="password-container">
-    <label for="name">Enter password here</label>
-    <input type="password" placeholder="Password" formControlName="password" />
-  </div>
-  <div class="repeat-password-container">
-    <label for="name">Repeat password</label>
-    <input
-      type="password"
-      placeholder="Repeat password"
-      formControlName="repeatPassword"
-    />
-  </div>
-  <button type="submit">Submit Form</button>
-</form>
-
-<button [disabled]="disabled"><a routerLink="../logIn">Go to log in</a></button>
+  <form (ngSubmit)="onSubmitForm()" [formGroup]="signUpForm">
+    <div class="control-container">
+      <label for="name">Enter your name here</label>
+      <input type="text" id="name" placeholder="Name" formControlName="name" />
+      @if(nameEmpty){
+      <div class="error">
+        <p>
+          This field is required. Please enter a name you want us to refer to
+          you as.
+        </p>
+      </div>
+      } @else if (nameLong) {
+      <div class="error">
+        <p>Name must be under 25 characters. Please enter a shorter name.</p>
+      </div>
+      } @else if (nameShort) {
+      <div class="error">
+        <p>Name must be over 5 characters. Please enter a longer name.</p>
+      </div>
+      }
+    </div>
+    <div class="control-container">
+      <label for="email">Enter your email here</label>
+      <input
+        autocomplete="email"
+        id="email"
+        type="text"
+        placeholder="Email"
+        formControlName="email"
+      />
+      @if(emailRequiredError){
+      <div class="error">This field is required</div>
+      } @else if(emailInvalidError){
+      <div class="error">Please enter a valid email address</div>
+      }
+    </div>
+    <div formGroupName="passwords">
+      <div class="control-container">
+        <label for="name">Enter password here</label>
+        <input
+          id="password"
+          type="password"
+          placeholder="Password"
+          formControlName="password"
+        />
+      </div>
+      <div class="control-container">
+        <label for="repeatPassword">Repeat password</label>
+        <input
+          id="repeatPassword"
+          type="password"
+          placeholder="Repeat password"
+          formControlName="repeatPassword"
+        />
+        @if(repeatPasswordEmpty){
+        <div class="error"><p>Please repeat password</p></div>
+        }
+      </div>
+      @if(passwordsMatch){
+      <div class="error"><p>Passwords do not match</p></div>
+      }
+    </div>
+    <button type="submit">Submit Form</button>
+  </form>
+</div>
+@if(modalActive){
+<app-confirm-modal
+  [name]="name.value"
+  [email]="email.value"
+></app-confirm-modal>
+}
