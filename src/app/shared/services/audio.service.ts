@@ -32,4 +32,8 @@ export class AudioService {
     this.loadCurrent();
     this.play();
   }
+
+  isPlaying() {
+    return !this.audio.paused;
+  }
 }
