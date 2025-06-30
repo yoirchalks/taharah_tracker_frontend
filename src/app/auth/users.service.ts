@@ -27,7 +27,7 @@ export class UsersService {
       );
   }
 
-  postUser(userData: { email: string; name: string; password: string }) {
+  postNewUser(userData: { email: string; name: string; password: string }) {
     this.httpService.post(`${this.rootUrl}/signUps`, userData).pipe(
       catchError((err) => {
         return throwError(
