@@ -14,10 +14,12 @@ a {
   --font-heading: "Playfair Display", serif;
 }
 
-html body {
+html,
+body {
   height: 100%;
   width: 100%;
   background: radial-gradient(ellipse, var(--primary), var(--accent));
+  background-size: 100% 100%;
   font-family: var(--font-body);
   font-weight: 300;
   font-size: 1rem;

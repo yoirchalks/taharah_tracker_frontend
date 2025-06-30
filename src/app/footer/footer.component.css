@@ -13,7 +13,8 @@
 
 .container {
   display: flex;
+  flex-direction: row-reverse;
   align-items: center;
-  justify-content: center;
+  justify-content: end;
   width: 100%;
 }

@@ -9,8 +9,6 @@ import { AudioService } from '../shared/services/audio.service';
 })
 export class FooterComponent {
   audio = inject(AudioService);
-  track = this.audio.currentTrack.file;
-  src = `music/${this.track}.mp3`;
 
   get isPlaying() {
     return this.audio.isPlaying();
@@ -18,6 +16,5 @@ export class FooterComponent {
 
   toggleAudio() {
     this.isPlaying ? this.audio.pause() : this.audio.play();
-    console.log(this.src);
   }
 }
