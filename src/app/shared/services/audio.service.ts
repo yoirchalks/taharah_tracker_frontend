@@ -15,12 +15,12 @@ export class AudioService {
   }
 
   private loadCurrent() {
-    this.audio.src = `music/${this.currentTrack.file}.mp3 `;
+    this.audio.src = `music/${this.currentTrack.file}.ogg`;
     this.audio.loop = true;
   }
 
   play() {
-    this.audio.play().catch((err) => console.warn('Autoplay blocked', err));
+    this.audio.play().catch((err) => console.warn(err));
   }
 
   pause() {
