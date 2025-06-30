@@ -7,12 +7,13 @@ import { catchError, map, Observable, throwError } from 'rxjs';
 })
 export class UsersService {
   httpService = inject(HttpClient);
+  rootUrl = 'http://localhost:3000/api';
 
   constructor() {}
 
   checkEmailUnique(email: string): Observable<boolean> {
     return this.httpService
-      .post<{ unique: boolean }>('http://localhost:3000/api/emails', { email })
+      .post<{ unique: boolean }>(`${this.rootUrl}/emails`, { email })
       .pipe(
         map((res) => res.unique),
         catchError((err) => {
@@ -24,5 +25,18 @@ export class UsersService {
           );
         })
       );
+  }
+
+  postUser(userData: { email: string; name: string; password: string }) {
+    this.httpService.post(`${this.rootUrl}/signUps`, userData).pipe(
+      catchError((err) => {
+        return throwError(
+          () =>
+            new Error(
+              err?.error?.message || err.message || 'Failed to sign up user'
+            )
+        );
+      })
+    );
   }
 }
