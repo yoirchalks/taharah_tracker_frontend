@@ -15,7 +15,7 @@ export class AudioService {
   }
 
   private loadCurrent() {
-    this.audio.src = `assets/music/${this.currentTrack.file}`;
+    this.audio.src = `music/${this.currentTrack.file}.mp3 `;
     this.audio.loop = true;
   }
 
