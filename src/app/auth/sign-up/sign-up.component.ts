@@ -101,7 +101,7 @@ export class SignUpComponent {
   }
 
   public get passwordEmpty() {
-    return this.password.touched && !this.password.hasError?.('required');
+    return this.password.touched && this.password.hasError?.('required');
   }
 
   public get passwordInsecure() {
