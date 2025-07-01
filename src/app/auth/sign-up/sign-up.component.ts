@@ -1,11 +1,10 @@
-import { Component, inject, output } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators as Val,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { AsyncValidators } from '../../shared/validators/async.validators';
 import {
   passwordRequirements,
@@ -21,8 +20,11 @@ import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 })
 export class SignUpComponent {
   asyncValidators = inject(AsyncValidators);
-  disabled = true;
+  passwordVisible = false;
+  repeatPasswordVisible = false;
+  formSubmitted = false;
   modalActive = false;
+  passwordValid = signal(false);
 
   signUpForm = new FormGroup({
     name: new FormControl('', [
@@ -43,14 +45,21 @@ export class SignUpComponent {
           Val.required,
           passwordRequirements,
         ]),
-        repeatPassword: new FormControl('', [
-          Val.minLength(8),
-          Val.maxLength(25),
-          Val.required,
-          passwordRequirements,
-        ]),
+        repeatPassword: new FormControl(
+          { value: '', disabled: true },
+          //   [
+          //   Val.minLength(8),
+          //   Val.maxLength(25),
+          //   Val.required,
+          //   passwordRequirements,
+          // ]
+          {
+            validators: [Val.required],
+            updateOn: 'blur',
+          }
+        ),
       },
-      { validators: [passwordsMatch], updateOn: 'blur' }
+      { validators: [passwordsMatch] }
     ),
   });
 
@@ -58,20 +67,32 @@ export class SignUpComponent {
     return this.signUpForm.controls.name;
   }
   public get nameEmpty() {
-    return this.name.touched && this.name.hasError?.('required');
+    return (
+      (this.name.touched || this.formSubmitted) &&
+      this.name.hasError?.('required')
+    );
   }
   public get nameShort() {
-    return this.name.touched && this.name.hasError?.('minlength');
+    return (
+      (this.name.touched || this.formSubmitted) &&
+      this.name.hasError?.('minlength')
+    );
   }
   public get nameLong() {
-    return this.name.touched && this.name.hasError('maxlength');
+    return (
+      (this.name.touched || this.formSubmitted) &&
+      this.name.hasError('maxlength')
+    );
   }
 
   public get email() {
     return this.signUpForm.controls.email;
   }
   public get emailEmpty() {
-    return this.email.touched && this.email.hasError('required');
+    return (
+      (this.email.touched || this.formSubmitted) &&
+      this.email.hasError('required')
+    );
   }
   public get emailPending() {
     return this.email.pending;
@@ -79,17 +100,23 @@ export class SignUpComponent {
   public get emailInvalidError() {
     const domain = this.email.value?.split('@')[1];
     return (
-      this.email.touched &&
+      (this.email.touched || this.formSubmitted) &&
       (this.email.hasError('email') || !domain?.includes('.'))
     );
   }
 
   public get emailTaken() {
-    return this.email.touched && this.email.hasError?.('emailTaken');
+    return (
+      (this.email.touched || this.formSubmitted) &&
+      this.email.hasError?.('emailTaken')
+    );
   }
 
   public get emailCheckFailed() {
-    return this.email.touched && this.email.hasError?.('emailCheckFailed');
+    return (
+      (this.email.touched || this.formSubmitted) &&
+      this.email.hasError?.('emailCheckFailed')
+    );
   }
 
   public get passwordGroup() {
@@ -101,18 +128,30 @@ export class SignUpComponent {
   }
 
   public get passwordEmpty() {
-    return this.password.touched && this.password.hasError?.('required');
+    return (
+      (this.password.touched || this.formSubmitted) &&
+      this.password.hasError?.('required')
+    );
   }
 
   public get passwordInsecure() {
-    return this.password.touched && this.password.hasError('notSecure');
+    return (
+      (this.password.touched || this.formSubmitted) &&
+      this.password.hasError('notSecure')
+    );
   }
 
   public get passwordTooShort() {
-    return this.password.touched && this.password.hasError?.('minlength');
+    return (
+      (this.password.touched || this.formSubmitted) &&
+      this.password.hasError?.('minlength')
+    );
   }
   public get passwordTooLong() {
-    return this.password.touched && this.password.hasError?.('maxlength');
+    return (
+      (this.password.touched || this.formSubmitted) &&
+      this.password.hasError?.('maxlength')
+    );
   }
 
   public get repeatPassword() {
@@ -121,7 +160,8 @@ export class SignUpComponent {
 
   public get repeatPasswordEmpty() {
     return (
-      this.repeatPassword.touched && this.repeatPassword.hasError?.('required')
+      (this.repeatPassword.touched || this.formSubmitted) &&
+      this.repeatPassword.hasError?.('required')
     );
   }
 
@@ -133,8 +173,30 @@ export class SignUpComponent {
     return this.passwordGroup.errors?.['passwordsDoNotMatch'];
   }
 
+  onTogglePasswordHidden() {
+    this.passwordVisible = !this.passwordVisible;
+  }
+  onToggleRepeatPasswordHidden() {
+    this.repeatPasswordVisible = !this.repeatPasswordVisible;
+  }
+
   onSubmitForm() {
-    if (!this.signUpForm.valid || this.emailPending) return;
+    console.log('button clicked');
+
+    if (!this.signUpForm.valid || this.emailPending) {
+      this.formSubmitted = true;
+      return;
+    }
     this.modalActive = true;
+  } //TODO: work out why onsubmit is being triggered when press toggle repeat password
+  constructor() {
+    this.password.valueChanges.subscribe(() => {
+      if (this.password.valid) {
+        this.passwordValid.set(true);
+        this.repeatPassword.enable({ emitEvent: false });
+      } else {
+        this.repeatPassword.disable({ emitEvent: false });
+      }
+    });
   }
 }

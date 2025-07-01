@@ -59,10 +59,14 @@
         <label for="name">Enter password here</label>
         <input
           id="password"
-          type="password"
+          [type]="passwordVisible ? 'text' : 'password'"
           placeholder="Password"
           formControlName="password"
         />
+
+        <button (click)="onTogglePasswordHidden()">
+          {{ passwordVisible ? "hide password" : "show password" }}
+        </button>
         @if(passwordEmpty){
         <div class="error">This field is required</div>
 
@@ -86,12 +90,19 @@
       <div class="control-container">
         <label for="repeatPassword">Repeat password</label>
         <input
-          [disabled]="passwordInvalid"
           id="repeatPassword"
-          type="password"
+          [type]="repeatPasswordVisible ? 'text' : 'password'"
           placeholder="Repeat password"
           formControlName="repeatPassword"
         />
+        @if (!passwordValid()) {
+        <div>
+          <p>Enter password to continue</p>
+        </div>
+        }
+        <button (click)="onToggleRepeatPasswordHidden()">
+          {{ passwordVisible ? "hide password" : "show password" }}
+        </button>
         @if(repeatPasswordEmpty){
         <div class="error"><p>Please repeat password</p></div>
         }
@@ -100,7 +111,7 @@
       <div class="error"><p>Passwords do not match</p></div>
       }
     </div>
-    <button type="submit">Submit Form</button>
+    <button [disabled]="!signUpForm.valid" type="submit">Submit Form</button>
   </form>
 </div>
 @if(modalActive){

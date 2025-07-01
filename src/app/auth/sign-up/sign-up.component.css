@@ -51,3 +51,8 @@ input:hover {
 label {
   margin-bottom: 6px;
 }
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
