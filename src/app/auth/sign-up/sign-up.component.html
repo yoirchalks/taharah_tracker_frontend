@@ -31,10 +31,27 @@
         placeholder="Email"
         formControlName="email"
       />
-      @if(emailRequiredError){
+      @if(emailEmpty){
       <div class="error">This field is required</div>
-      } @else if(emailInvalidError){
+      } @else if (emailPending) {
+      <div class="error">
+        <p>Please wait whilst we check if your email address is available</p>
+      </div>
+      }@else if(emailInvalidError){
       <div class="error">Please enter a valid email address</div>
+      } @else if (emailTaken) {
+      <div class="error">
+        <p>
+          This email address is already in use. Please entre a different address
+        </p>
+      </div>
+      } @else if (emailCheckFailed) {
+      <div class="error">
+        <p>
+          We where unable to check for email availability. Please try again
+          later.
+        </p>
+      </div>
       }
     </div>
     <div formGroupName="passwords">
@@ -46,10 +63,30 @@
           placeholder="Password"
           formControlName="password"
         />
+        @if(passwordEmpty){
+        <div class="error">This field is required</div>
+
+        } @else if (passwordTooShort) {
+        <div class="error">
+          <p>Password must be at least 8 characters long</p>
+        </div>
+        } @else if (passwordTooLong) {
+        <div class="error">
+          <p>Password must be at less than 30 characters</p>
+        </div>
+        } @else if (passwordInsecure) {
+        <div class="error">
+          <p>
+            Password must contain lower case letter and two of upper case
+            letter, number or special characters
+          </p>
+        </div>
+        }
       </div>
       <div class="control-container">
         <label for="repeatPassword">Repeat password</label>
         <input
+          [disabled]="passwordInvalid"
           id="repeatPassword"
           type="password"
           placeholder="Repeat password"
@@ -68,7 +105,8 @@
 </div>
 @if(modalActive){
 <app-confirm-modal
-  [name]="name.value"
-  [email]="email.value"
+  [name]="name.value!"
+  [email]="email.value!"
+  [password]="password.value!"
 ></app-confirm-modal>
 }

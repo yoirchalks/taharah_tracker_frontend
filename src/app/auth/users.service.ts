@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { catchError, map, Observable, throwError } from 'rxjs';
+import { catchError, map, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +15,7 @@ export class UsersService {
     return this.httpService
       .post<{ unique: boolean }>(`${this.rootUrl}/emails`, { email })
       .pipe(
+        tap(() => console.log('service called')),
         map((res) => res.unique),
         catchError((err) => {
           return throwError(
@@ -28,7 +29,7 @@ export class UsersService {
   }
 
   postNewUser(userData: { email: string; name: string; password: string }) {
-    this.httpService.post(`${this.rootUrl}/signUps`, userData).pipe(
+    return this.httpService.post(`${this.rootUrl}/signUps`, userData).pipe(
       catchError((err) => {
         return throwError(
           () =>

@@ -1,5 +1,7 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { ModalComponent } from '../../../shared/modal/modal.component';
+import { UsersService } from '../../users.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-confirm-modal',
@@ -8,6 +10,21 @@ import { ModalComponent } from '../../../shared/modal/modal.component';
   styleUrl: './confirm-modal.component.css',
 })
 export class ConfirmModalComponent {
-  name = input.required();
-  email = input.required();
+  userService = inject(UsersService);
+  router = inject(Router);
+  name = input.required<string>();
+  email = input.required<string>();
+  password = input.required<string>();
+
+  onConfirm() {
+    this.userService
+      .postNewUser({
+        name: this.name(),
+        email: this.email(),
+        password: this.password(),
+      })
+      .subscribe({
+        next: () => this.router.navigate(['/logIn']),
+      });
+  }
 }

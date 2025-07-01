@@ -7,7 +7,10 @@ import {
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AsyncValidators } from '../../shared/validators/async.validators';
-import { passwordsMatch } from '../../shared/validators/sync.validators';
+import {
+  passwordRequirements,
+  passwordsMatch,
+} from '../../shared/validators/sync.validators';
 import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 
 @Component({
@@ -38,11 +41,13 @@ export class SignUpComponent {
           Val.minLength(8),
           Val.maxLength(25),
           Val.required,
+          passwordRequirements,
         ]),
         repeatPassword: new FormControl('', [
           Val.minLength(8),
           Val.maxLength(25),
           Val.required,
+          passwordRequirements,
         ]),
       },
       { validators: [passwordsMatch], updateOn: 'blur' }
@@ -53,13 +58,38 @@ export class SignUpComponent {
     return this.signUpForm.controls.name;
   }
   public get nameEmpty() {
-    return this.name.touched && !this.name.value;
+    return this.name.touched && this.name.hasError?.('required');
   }
   public get nameShort() {
     return this.name.touched && this.name.hasError?.('minlength');
   }
   public get nameLong() {
     return this.name.touched && this.name.hasError('maxlength');
+  }
+
+  public get email() {
+    return this.signUpForm.controls.email;
+  }
+  public get emailEmpty() {
+    return this.email.touched && this.email.hasError('required');
+  }
+  public get emailPending() {
+    return this.email.pending;
+  }
+  public get emailInvalidError() {
+    const domain = this.email.value?.split('@')[1];
+    return (
+      this.email.touched &&
+      (this.email.hasError('email') || !domain?.includes('.'))
+    );
+  }
+
+  public get emailTaken() {
+    return this.email.touched && this.email.hasError?.('emailTaken');
+  }
+
+  public get emailCheckFailed() {
+    return this.email.touched && this.email.hasError?.('emailCheckFailed');
   }
 
   public get passwordGroup() {
@@ -70,40 +100,33 @@ export class SignUpComponent {
     return this.passwordGroup.controls.password;
   }
 
+  public get passwordEmpty() {
+    return this.password.touched && !this.password.hasError?.('required');
+  }
+
+  public get passwordInsecure() {
+    return this.password.touched && this.password.hasError('notSecure');
+  }
+
+  public get passwordTooShort() {
+    return this.password.touched && this.password.hasError?.('minlength');
+  }
+  public get passwordTooLong() {
+    return this.password.touched && this.password.hasError?.('maxlength');
+  }
+
   public get repeatPassword() {
     return this.passwordGroup.controls.repeatPassword;
   }
 
-  public get email() {
-    return this.signUpForm.controls.email;
-  }
-
-  public get emailRequiredError() {
-    return this.email.touched && this.email.hasError('required');
-  }
-  public get emailInvalidError() {
-    const domain = this.email.value?.split('@')[1];
-
-    return (
-      this.email.touched &&
-      (this.email.hasError('email') || !domain?.includes('.'))
-    );
-  }
-
-  public get emailEmpty() {
-    return this.email.touched && !this.email.value;
-  }
-
-  public get passwordEmpty() {
-    return this.password.touched && !this.password.value;
-  }
-
   public get repeatPasswordEmpty() {
     return (
-      this.repeatPassword.touched &&
-      !this.repeatPassword.value &&
-      this.password.valid
+      this.repeatPassword.touched && this.repeatPassword.hasError?.('required')
     );
+  }
+
+  public get passwordInvalid() {
+    return !this.password.valid;
   }
 
   public get passwordsMatch() {
@@ -111,6 +134,7 @@ export class SignUpComponent {
   }
 
   onSubmitForm() {
+    if (!this.signUpForm.valid || this.emailPending) return;
     this.modalActive = true;
   }
 }
