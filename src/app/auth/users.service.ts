@@ -16,7 +16,9 @@ export class UsersService {
       .post<{ unique: boolean }>(`${this.rootUrl}/emails`, { email })
       .pipe(
         tap(() => console.log('service called')),
-        map((res) => res.unique),
+        map((res) => {
+          return !!res?.unique; // Defensive
+        }),
         catchError((err) => {
           return throwError(
             () =>
@@ -30,6 +32,7 @@ export class UsersService {
 
   postNewUser(userData: { email: string; name: string; password: string }) {
     return this.httpService.post(`${this.rootUrl}/signUps`, userData).pipe(
+      tap(() => console.log('post user service called')),
       catchError((err) => {
         return throwError(
           () =>

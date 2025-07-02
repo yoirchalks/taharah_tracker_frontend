@@ -4,7 +4,13 @@
   <form (ngSubmit)="onSubmitForm()" [formGroup]="signUpForm">
     <div class="control-container">
       <label for="name">Enter your name here</label>
-      <input type="text" id="name" placeholder="Name" formControlName="name" />
+      <input
+        autocomplete="name"
+        type="text"
+        id="name"
+        placeholder="Name"
+        formControlName="name"
+      />
       @if(nameEmpty){
       <div class="error">
         <p>
@@ -58,6 +64,7 @@
       <div class="control-container">
         <label for="name">Enter password here</label>
         <input
+          autocomplete="new-password"
           id="password"
           [type]="passwordVisible ? 'text' : 'password'"
           placeholder="Password"
@@ -90,6 +97,7 @@
       <div class="control-container">
         <label for="repeatPassword">Repeat password</label>
         <input
+          autocomplete="new-password"
           id="repeatPassword"
           [type]="repeatPasswordVisible ? 'text' : 'password'"
           placeholder="Repeat password"
@@ -97,7 +105,7 @@
         />
         @if (!passwordValid()) {
         <div>
-          <p>Enter password to continue</p>
+          <p>Enter password above to continue</p>
         </div>
         }
         <button (click)="onToggleRepeatPasswordHidden()">

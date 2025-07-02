@@ -99,9 +99,10 @@ export class SignUpComponent {
   }
   public get emailInvalidError() {
     const domain = this.email.value?.split('@')[1];
+    const dot: string | null | undefined = domain?.split('.')[1];
     return (
       (this.email.touched || this.formSubmitted) &&
-      (this.email.hasError('email') || !domain?.includes('.'))
+      (this.email.hasError('email') || !domain?.includes('.') || !dot)
     );
   }
 
