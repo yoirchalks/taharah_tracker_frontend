@@ -24,7 +24,7 @@ export class ConfirmModalComponent {
         password: this.password(),
       })
       .subscribe({
-        next: () => this.router.navigate(['/logIn']),
+        next: () => this.router.navigate(['auth/logIn']),
       });
   }
 }
