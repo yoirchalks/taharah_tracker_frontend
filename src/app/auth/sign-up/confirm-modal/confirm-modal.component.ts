@@ -25,6 +25,7 @@ export class ConfirmModalComponent {
       })
       .subscribe({
         next: () => this.router.navigate(['auth/logIn']),
+        error: (err) => alert(err),
       });
   }
 }
