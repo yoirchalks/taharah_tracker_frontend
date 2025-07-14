@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-options',
-  imports: [],
+  imports: [MatTabsModule],
   templateUrl: './options.component.html',
-  styleUrl: './options.component.css'
+  styleUrl: './options.component.css',
 })
-export class OptionsComponent {
-
-}
+export class OptionsComponent {}
