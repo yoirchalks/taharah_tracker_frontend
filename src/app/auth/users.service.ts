@@ -7,7 +7,7 @@ import { catchError, map, Observable, tap, throwError } from 'rxjs';
 })
 export class UsersService {
   httpService = inject(HttpClient);
-  rootUrl = 'http://localhost:3000/api';
+  rootUrl = 'https://taharah-tracker-backend.onrender.com/api';
 
   constructor() {}
 
