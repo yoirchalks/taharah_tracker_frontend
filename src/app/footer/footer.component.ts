@@ -1,9 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { AudioService } from '../shared/services/audio.service';
+import { ThemeToggleComponent } from './theme-toggle/theme-toggle.component';
 
 @Component({
   selector: 'app-footer',
-  imports: [],
+  imports: [ThemeToggleComponent],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.css',
 })

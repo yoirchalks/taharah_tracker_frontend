@@ -1,32 +1,37 @@
-import { Component, inject, OnInit, Renderer2 } from '@angular/core';
+// app.component.ts
+import { Component, effect, inject, Renderer2 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FooterComponent } from './footer/footer.component';
-import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { ThemeService } from './shared/services/theme.service';
+import { OverlayContainer } from '@angular/cdk/overlay'; // <-- NEW
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   imports: [RouterOutlet, FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent implements OnInit {
-  title = 'Taharah Tracker';
-  isDark = false;
+export class AppComponent {
+  private renderer = inject(Renderer2);
+  private themeService = inject(ThemeService);
+  private overlay = inject(OverlayContainer);
 
-  renderer = inject(Renderer2);
-
-  ngOnInit(): void {
+  constructor() {
     this.renderer.addClass(document.body, 'mat-app-background');
-    this.renderer.addClass(document.body, 'light-theme');
-  }
 
-  toggleTheme() {
-    this.isDark = !this.isDark;
+    effect(() => {
+      const theme = this.themeService.theme(); // signal read
 
-    const newClass = this.isDark ? 'dark-theme' : 'light-theme';
-    const oldClass = !this.isDark ? 'dark-theme' : 'light-theme';
+      this.renderer.removeClass(document.body, 'light-theme');
+      this.renderer.removeClass(document.body, 'dark-theme');
+      this.renderer.addClass(document.body, `${theme}-theme`);
 
-    this.renderer.removeClass(document.body, oldClass);
-    this.renderer.addClass(document.body, newClass);
+      const oc = this.overlay.getContainerElement().classList;
+      oc.remove('light-theme', 'dark-theme');
+      oc.add(`${theme}-theme`);
+
+      document.body.style.colorScheme = theme; // ‘light’ | ‘dark’
+    });
   }
 }

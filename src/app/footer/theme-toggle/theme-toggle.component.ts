@@ -1,18 +1,21 @@
-import { Component, output, Output } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ThemeService } from '../../shared/services/theme.service';
 
 @Component({
   selector: 'app-theme-toggle',
+  standalone: true,
   imports: [MatSlideToggleModule],
-  templateUrl: './theme-toggle.component.html',
-  styleUrl: './theme-toggle.component.css',
+  template: `
+    <mat-slide-toggle
+      [checked]="theme() === 'dark'"
+      (change)="themeService.toggleTheme()"
+    >
+      {{ theme() }}
+    </mat-slide-toggle>
+  `,
 })
 export class ThemeToggleComponent {
-  isDark = false;
-  themeChange = output<'dark' | 'light'>();
-
-  onToggle() {
-    this.isDark = !this.isDark;
-    this.themeChange.emit(this.isDark ? 'dark' : 'light');
-  }
+  themeService = inject(ThemeService);
+  theme = this.themeService.theme;
 }

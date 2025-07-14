@@ -1,3 +1,6 @@
-<mat-slide-toggle (toggleChange)="onToggle()">{{
-  isDark ? "Light" : "Dark"
-}}</mat-slide-toggle>
+<mat-slide-toggle
+  [checked]="theme() === 'dark'"
+  (change)="themeService.toggleTheme()"
+>
+  {{ theme() }}
+</mat-slide-toggle>
