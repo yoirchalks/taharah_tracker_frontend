@@ -1,7 +1,2 @@
-<body [className]="isDark ? 'dark-theme' : 'light-theme'">
-  <mat-slide-toggle color="primary" (change)="toggleTheme()">{{
-    isDark ? "light" : "dark"
-  }}</mat-slide-toggle>
-  <router-outlet></router-outlet>
-  <app-footer></app-footer>
-</body>
+<router-outlet></router-outlet>
+<app-footer></app-footer>

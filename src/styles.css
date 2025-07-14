@@ -1,17 +1,62 @@
+/* ──────────────────────────────────────────────────────────────────────────
+   GLOBAL FONTS
+   ─────────────────────────────────────────────────────────────────────── */
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&family=Playfair+Display:wght@400;600&display=swap");
+
+/* ──────────────────────────────────────────────────────────────────────────
+   THEME‑SCOPED COLOUR VARIABLES
+   These → flip automatically when you toggle .light‑theme /.dark‑theme
+   Adjust hex codes if you tweak palettes in themes.scss
+   ─────────────────────────────────────────────────────────────────────── */
+.light-theme {
+  /* Rose‑red light palette (Material red 500 / 300) */
+  --app-bg: #ffffff;
+  --app-on-bg: #333333;
+
+  --app-primary: #f44336; /* red‑500 */
+  --app-on-primary: #ffffff;
+
+  --app-accent: #e57373; /* red‑300 */
+  --app-on-accent: #ffffff;
+
+  --app-heading: #222222;
+}
+
+.dark-theme {
+  /* Magenta–violet dark palette (purple 500 / deep‑purple 200) */
+  --app-bg: #121212;
+  --app-on-bg: #eeeeee;
+
+  --app-primary: #9c27b0; /* purple‑500 */
+  --app-on-primary: #ffffff;
+
+  --app-accent: #b39ddb; /* deep‑purple‑200 */
+  --app-on-accent: #000000;
+
+  --app-heading: #fafafa;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   GLOBAL RESET / LAYOUT
+   ─────────────────────────────────────────────────────────────────────── */
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background-color: var(--app-bg);
+  color: var(--app-on-bg);
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   TYPOGRAPHY
+   ─────────────────────────────────────────────────────────────────────── */
 a {
   text-decoration: none;
   color: inherit;
-}
-
-:root {
-  /* --primary: #eb00d7;
-  --secondary: #eb004a;
-  --tertiary: #792cf2;
-  --accent: #a800eb;
-  --warning: rgba(235, 19, 0, 0.7); */
-  --font-body: "Nunito", sans-serif;
-  --font-heading: "Playfair Display", serif;
 }
 
 h1,
@@ -20,49 +65,43 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-heading);
+  font-family: "Playfair Display", serif;
   font-weight: 400;
   line-height: 1.3;
-  color: #222;
-  margin-top: 1.5rem;
-  margin-bottom: 0.75rem;
-}
-
-input,
-textarea,
-button {
-  font-family: var(--font-body);
-  font-size: 1rem;
-  line-height: 1.5;
-}
-
-button {
-  font-weight: 600;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  border: none;
-  background-color: #d4b6c5; /* soft, feminine tone */
-  color: #fff;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #c39bb0;
-}
-
-.error {
-  background-color: var(--warning);
+  color: var(--app-heading);
+  margin: 1.5rem 0 0.75rem;
 }
 
 p {
   margin: 0;
+  font-family: "Nunito", sans-serif;
 }
 
-html,
-body {
-  height: 100%;
+/* ──────────────────────────────────────────────────────────────────────────
+   YOUR PLAIN (NON‑MATERIAL) BUTTONS
+   ─────────────────────────────────────────────────────────────────────── */
+button:not(.mat-button-base) {
+  font-family: "Nunito", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  background-color: var(--app-primary);
+  color: var(--app-on-primary);
+  cursor: pointer;
+  transition: background-color 200ms;
 }
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+
+button:not(.mat-button-base):hover {
+  background-color: var(--app-accent);
+  color: var(--app-on-accent);
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   MISC
+   ─────────────────────────────────────────────────────────────────────── */
+.error {
+  background-color: rgba(235, 19, 0, 0.7); /* keep your warn colour */
 }
