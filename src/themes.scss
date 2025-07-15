@@ -1,23 +1,17 @@
 @use "@angular/material" as mat;
-
 @include mat.core();
 
-$rose-red-primary: mat.m2-define-palette(mat.$m2-red-palette, 500, 300, 700);
-$rose-red-accent: mat.m2-define-palette(mat.$m2-red-palette, 300, 100, 500);
+$blush-primary: mat.m2-define-palette(mat.$m2-pink-palette, 300, 100, 500);
+$rose-accent: mat.m2-define-palette(mat.$m2-red-palette, 100, 50, 200);
 
-$magenta-primary: mat.m2-define-palette(mat.$m2-purple-palette, 500, 300, 700);
-$violet-accent: mat.m2-define-palette(
-  mat.$m2-deep-purple-palette,
-  200,
-  100,
-  400
-);
+$lavender-primary: mat.m2-define-palette(mat.$m2-purple-palette, 200, 100, 300);
+$sky-accent: mat.m2-define-palette(mat.$m2-indigo-palette, 100, 50, 200);
 
 $light-theme: mat.m2-define-light-theme(
   (
     color: (
-      primary: $rose-red-primary,
-      accent: $rose-red-accent,
+      primary: $blush-primary,
+      accent: $rose-accent,
     ),
   )
 );
@@ -25,8 +19,8 @@ $light-theme: mat.m2-define-light-theme(
 $dark-theme: mat.m2-define-dark-theme(
   (
     color: (
-      primary: $magenta-primary,
-      accent: $violet-accent,
+      primary: $lavender-primary,
+      accent: $sky-accent,
     ),
   )
 );

@@ -1,59 +1,73 @@
-/* ──────────────────────────────────────────────────────────────────────────
+/* ──────────────────────────────────────────────────────────────
    GLOBAL FONTS
-   ─────────────────────────────────────────────────────────────────────── */
+────────────────────────────────────────────────────────────── */
 @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&family=Playfair+Display:wght@400;600&display=swap");
 
-/* ──────────────────────────────────────────────────────────────────────────
-   THEME‑SCOPED COLOUR VARIABLES
-   These → flip automatically when you toggle .light‑theme /.dark‑theme
-   Adjust hex codes if you tweak palettes in themes.scss
-   ─────────────────────────────────────────────────────────────────────── */
+/* ──────────────────────────────────────────────────────────────
+   THEME‑SCOPED CSS VARIABLES
+   (Applied by adding .light‑theme or .dark‑theme to <body>)
+────────────────────────────────────────────────────────────── */
 .light-theme {
-  /* Rose‑red light palette (Material red 500 / 300) */
-  --app-bg: #ffffff;
-  --app-on-bg: #333333;
+  /* Blush / rose palette */
+  --app-bg: #fdf6f9;
+  --app-on-bg: #3a3a3a;
 
-  --app-primary: #f44336; /* red‑500 */
-  --app-on-primary: #ffffff;
+  --app-primary: #f8bbd0; /* pink‑200/300 */
+  --app-on-primary: #4a2c2a;
 
-  --app-accent: #e57373; /* red‑300 */
-  --app-on-accent: #ffffff;
+  --app-accent: #f48fb1; /* pink‑300/400 */
+  --app-on-accent: #4a2c2a;
 
-  --app-heading: #222222;
+  --app-heading: #4a2c2a;
+
+  /* Tell Angular‑Material (MDC) what “surface” means */
+  --md-sys-color-surface: var(--app-bg);
+  --md-sys-color-on-surface: var(--app-on-bg);
 }
 
 .dark-theme {
-  /* Magenta–violet dark palette (purple 500 / deep‑purple 200) */
-  --app-bg: #121212;
-  --app-on-bg: #eeeeee;
+  /* Lavender / sky palette */
+  --app-bg: #1a1528;
+  --app-on-bg: #f5f5f7;
 
-  --app-primary: #9c27b0; /* purple‑500 */
-  --app-on-primary: #ffffff;
+  --app-primary: #ce93d8; /* purple‑200/300 */
+  --app-on-primary: #1e072c;
 
   --app-accent: #b39ddb; /* deep‑purple‑200 */
-  --app-on-accent: #000000;
+  --app-on-accent: #0e0e14;
 
-  --app-heading: #fafafa;
+  --app-heading: #fcefff;
+
+  --md-sys-color-surface: var(--app-bg);
+  --md-sys-color-on-surface: var(--app-on-bg);
 }
 
-/* ──────────────────────────────────────────────────────────────────────────
-   GLOBAL RESET / LAYOUT
-   ─────────────────────────────────────────────────────────────────────── */
+/* ──────────────────────────────────────────────────────────────
+   BASE RESET & BODY
+────────────────────────────────────────────────────────────── */
 html,
 body {
   height: 100%;
   margin: 0;
+  padding: 0;
 }
 
 body {
   background-color: var(--app-bg);
   color: var(--app-on-bg);
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: "Nunito", sans-serif;
+  transition: background-color 300ms ease, color 300ms ease;
 }
 
-/* ──────────────────────────────────────────────────────────────────────────
+/* Ensure Angular‑Material’s helper class uses our vars */
+body.mat-app-background {
+  background-color: var(--app-bg);
+  color: var(--app-on-bg);
+}
+
+/* ──────────────────────────────────────────────────────────────
    TYPOGRAPHY
-   ─────────────────────────────────────────────────────────────────────── */
+────────────────────────────────────────────────────────────── */
 a {
   text-decoration: none;
   color: inherit;
@@ -77,21 +91,21 @@ p {
   font-family: "Nunito", sans-serif;
 }
 
-/* ──────────────────────────────────────────────────────────────────────────
-   YOUR PLAIN (NON‑MATERIAL) BUTTONS
-   ─────────────────────────────────────────────────────────────────────── */
+/* ──────────────────────────────────────────────────────────────
+   PLAIN (NON‑MATERIAL) BUTTONS
+────────────────────────────────────────────────────────────── */
 button:not(.mat-button-base) {
   font-family: "Nunito", sans-serif;
   font-size: 1rem;
   font-weight: 600;
   line-height: 1.5;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 1.25rem;
   border: none;
   border-radius: 6px;
   background-color: var(--app-primary);
   color: var(--app-on-primary);
   cursor: pointer;
-  transition: background-color 200ms;
+  transition: background-color 200ms ease, color 200ms ease;
 }
 
 button:not(.mat-button-base):hover {
@@ -99,9 +113,18 @@ button:not(.mat-button-base):hover {
   color: var(--app-on-accent);
 }
 
-/* ──────────────────────────────────────────────────────────────────────────
+/* ──────────────────────────────────────────────────────────────
    MISC
-   ─────────────────────────────────────────────────────────────────────── */
+────────────────────────────────────────────────────────────── */
 .error {
-  background-color: rgba(235, 19, 0, 0.7); /* keep your warn colour */
+  background-color: rgba(220, 38, 38, 0.7); /* soft error red */
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+/* Utility: leave room when using a fixed footer */
+.has-fixed-footer {
+  margin-bottom: 80px;
 }
