@@ -3,7 +3,7 @@ import { Component, effect, inject, Renderer2 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FooterComponent } from './footer/footer.component';
 import { ThemeService } from './shared/services/theme.service';
-import { OverlayContainer } from '@angular/cdk/overlay'; // <-- NEW
+import { OverlayContainer } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-root',
