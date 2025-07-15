@@ -1,21 +1,14 @@
-/* theme-toggle.component.scss */
-
 :host {
-  /* host element of your component */
-  display: inline-block; /* keeps relative positioning sane */
+  display: inline-block;
 }
 
-/* --- 1. Hide the built‑in icons --- */
 :host ::ng-deep .mdc-switch__icon {
-  /* or .mdc-switch__icons if you prefer */
   display: none;
 }
 
-/* --- 2. Position the sun/moon on the actual MDC switch element --- */
 :host ::ng-deep .mdc-switch {
-  position: relative; /* becomes the anchor for ::after */
+  position: relative;
 
-  /* hide icon via CSS vars, just in case */
   --mdc-switch-selected-icon-size: 0;
   --mdc-switch-unselected-icon-size: 0;
 }
