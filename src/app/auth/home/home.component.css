@@ -1,0 +1,97 @@
+:host {
+  display: block;
+  margin-bottom: 80px;
+}
+
+.hero {
+  height: 100vh; /* full‑screen “panel” */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* horizontal centering */
+  justify-content: center; /* vertical centering */
+  gap: 24px; /* space between h1, h2, and buttons */
+  text-align: center;
+  position: relative;
+
+  background: linear-gradient(
+    to bottom,
+    var(--app-bg) 0%,
+    color-mix(in srgb, var(--app-primary) 70%, var(--app-bg)) 100%
+  );
+}
+
+.dark-theme .hero {
+  background: linear-gradient(
+    to bottom,
+    var(--app-bg) 0%,
+    color-mix(in srgb, var(--app-primary) 30%, var(--app-bg)) 100%
+  );
+}
+
+/* Headings */
+.hero h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.hero h2 {
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* Buttons */
+.hero-buttons {
+  display: flex;
+  gap: 16px;
+}
+
+/* Parallax Sections */
+.parallax-section {
+  height: 100vh;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* Cycle through backgrounds */
+.parallax-section:nth-child(2) {
+  background-image: url("/images/flowers.jpg");
+}
+.parallax-section:nth-child(3) {
+  background-image: url("/images/nature.jpg");
+}
+.parallax-section:nth-child(4) {
+  background-image: url("/images/sunset.jpg");
+}
+
+.content {
+  padding: 2rem;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 12px;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #fdf97d;
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.6);
+}
+
+.text {
+  font-size: 1.25rem;
+  line-height: 1.8;
+  color: #fcf99b;
+  max-width: 800px;
+  text-align: center;
+  margin: 0 auto;
+}

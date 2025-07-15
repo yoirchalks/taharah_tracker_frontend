@@ -1,6 +1,22 @@
-<button style="margin-right: 20px" mat-button (click)="onClick()">
-  <a routerLink="../signUp">Sign Up</a>
-</button>
-<button mat-button (click)="onClick()">
-  <a routerLink="../logIn">Log In</a>
-</button>
+<section class="hero">
+  <h1>Welcome to Taharah Tracker</h1>
+  <h2>The Place Where Your Journey Starts</h2>
+
+  <div class="hero-buttons">
+    <button mat-raised-button color="primary" routerLink="../signUp">
+      Sign Up
+    </button>
+    <button mat-raised-button color="accent" routerLink="../logIn">
+      Log In
+    </button>
+  </div>
+</section>
+
+@for (text of texts; track $index) {
+<section class="parallax-section">
+  <div class="content">
+    <h2 class="title">{{ text.title }}</h2>
+    <p class="text">{{ text.text }}</p>
+  </div>
+</section>
+}
