@@ -5,6 +5,7 @@ import { catchError, map, throwError } from 'rxjs';
 interface LogInData {
   email: string;
   password?: string;
+  requestingOtp: boolean;
 }
 
 interface OTPData {
@@ -21,7 +22,7 @@ export class LoginService {
   baseUrl = 'https://taharah-tracker-backend.onrender.com/api';
 
   logIn = (data: LogInData) => {
-    this.httpService.post(`${this.baseUrl}/logIns`, data).pipe(
+    return this.httpService.post(`${this.baseUrl}/logIns`, data).pipe(
       catchError((err) => {
         return throwError(() => {
           new Error(
@@ -33,7 +34,7 @@ export class LoginService {
   };
 
   submitOtp = (data: OTPData) => {
-    this.httpService.post(`${this.baseUrl}/otp`, data).pipe(
+    return this.httpService.post(`${this.baseUrl}/otp`, data).pipe(
       catchError((err) => {
         return throwError(() => {
           new Error(err.error.message || err.message || 'otp attempt failed');
