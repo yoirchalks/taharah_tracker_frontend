@@ -22,7 +22,7 @@ export class LogInComponent {
   formSubmitted = false;
   passwordValid = signal(false);
 
-  method = signal<'password' | 'otp'>('otp');
+  method = signal<'password' | 'otp'>('password');
 
   signUpForm = new FormGroup({
     email: new FormControl('', {
@@ -59,7 +59,7 @@ export class LogInComponent {
     );
   }
 
-  public get emailTaken() {
+  public get emailNotFound() {
     return (
       (this.email.touched || this.formSubmitted) &&
       this.email.hasError?.('emailNotInUse')
