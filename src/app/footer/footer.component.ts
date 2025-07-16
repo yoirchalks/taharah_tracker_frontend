@@ -18,4 +18,14 @@ export class FooterComponent {
   toggleAudio() {
     this.isPlaying ? this.audio.pause() : this.audio.play();
   }
+
+  prevAudio() {
+    console.log('called');
+
+    this.audio.previousTrack();
+  }
+
+  nextTrack() {
+    this.audio.nextTrack();
+  }
 }

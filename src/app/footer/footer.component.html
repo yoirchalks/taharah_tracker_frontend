@@ -1,4 +1,9 @@
 <div class="container">
   <app-theme-toggle />
-  <button (click)="toggleAudio()">{{ isPlaying ? "Pause" : "Play" }}</button>
+  <div style="display: flex; flex-direction: row" class="audio-container">
+    <button (click)="prevAudio()">Prev</button>
+    <p>{{ `Currently playing: ${audio.currentTrack.name}` }}</p>
+    <button (click)="toggleAudio()">{{ isPlaying ? "Pause" : "Play" }}</button>
+    <button (click)="nextTrack()">next</button>
+  </div>
 </div>

@@ -37,13 +37,20 @@ export class AudioService {
   }
 
   nextTrack() {
-    let index = this.currentTrack.id++;
-    if (index === this.tracks.length) {
-      index = 0;
-    }
+    this.pause();
+    let index = this.tracks.findIndex((t) => t.id === this.currentTrack.id);
+    index = (index + 1) % this.tracks.length;
     this.currentTrack = this.tracks[index];
-    this.audio.src = `music/${this.currentTrack.file}/ogg`;
-    this.audio.loop = true;
+    this.loadCurrent();
+    this.play();
+  }
+
+  previousTrack() {
+    this.pause();
+    let index = this.tracks.findIndex((t) => t.id === this.currentTrack.id);
+    index = (index - 1 + this.tracks.length) % this.tracks.length;
+    this.currentTrack = this.tracks[index];
+    this.loadCurrent();
     this.play();
   }
 
