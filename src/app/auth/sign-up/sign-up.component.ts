@@ -47,12 +47,6 @@ export class SignUpComponent {
         ]),
         repeatPassword: new FormControl(
           { value: '', disabled: true },
-          //   [
-          //   Val.minLength(8),
-          //   Val.maxLength(25),
-          //   Val.required,
-          //   passwordRequirements,
-          // ]
           {
             validators: [Val.required],
             updateOn: 'blur',

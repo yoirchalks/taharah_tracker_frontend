@@ -1,37 +1,103 @@
-import { Component, signal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
+import { Component, inject, signal } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators as Val,
+} from '@angular/forms';
+import { AsyncValidators } from '../../shared/validators/async.validators';
+import { passwordRequirements } from '../../shared/validators/sync.validators';
+import { MatTabGroup } from '@angular/material/tabs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-log-in',
-  imports: [
-    MatButtonModule,
-    MatButtonToggleModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatFormFieldModule,
-  ],
+  imports: [ReactiveFormsModule, MatButtonToggleModule],
   templateUrl: './log-in.component.html',
   styleUrl: './log-in.component.css',
 })
 export class LogInComponent {
-  signInMethod = signal<'password' | 'otp'>('password');
+  asyncValidators = inject(AsyncValidators);
+  passwordVisible = false;
+  formSubmitted = false;
+  passwordValid = signal(false);
 
-  form = new FormGroup({
-    email: new FormControl({}),
-    password: new FormControl({}),
+  method = signal<'password' | 'otp'>('otp');
+
+  signUpForm = new FormGroup({
+    email: new FormControl('', {
+      validators: [Val.email, Val.required],
+      asyncValidators: [this.asyncValidators.emailInUse()],
+      updateOn: 'blur',
+    }),
+    password: new FormControl('', [
+      Val.minLength(8),
+      Val.maxLength(25),
+      Val.required,
+      passwordRequirements,
+    ]),
   });
 
-  get password() {
-    return this.form.controls.password;
+  public get email() {
+    return this.signUpForm.controls.email;
+  }
+  public get emailEmpty() {
+    return (
+      (this.email.touched || this.formSubmitted) &&
+      this.email.hasError('required')
+    );
+  }
+  public get emailPending() {
+    return this.email.pending;
+  }
+  public get emailInvalidError() {
+    const domain = this.email.value?.split('@')[1];
+    const dot: string | null | undefined = domain?.split('.')[1];
+    return (
+      (this.email.touched || this.formSubmitted) &&
+      (this.email.hasError('email') || !domain?.includes('.') || !dot)
+    );
   }
 
-  get email() {
-    return this.form.controls.email;
+  public get emailTaken() {
+    return (
+      (this.email.touched || this.formSubmitted) &&
+      this.email.hasError?.('emailTaken')
+    );
   }
 
-  onSubmit() {}
+  public get emailCheckFailed() {
+    return (
+      (this.email.touched || this.formSubmitted) &&
+      this.email.hasError?.('emailCheckFailed')
+    );
+  }
+
+  public get password() {
+    return this.signUpForm.controls.password;
+  }
+
+  public get passwordEmpty() {
+    return (
+      (this.password.touched || this.formSubmitted) &&
+      this.password.hasError?.('required')
+    );
+  }
+
+  public get passwordInvalid() {
+    return !this.password.valid;
+  }
+
+  onTogglePasswordHidden() {
+    this.passwordVisible = !this.passwordVisible;
+  }
+
+  onSubmitForm() {
+    console.log('button clicked');
+
+    if (!this.signUpForm.valid || this.emailPending) {
+      this.formSubmitted = true;
+      return;
+    }
+  }
 }

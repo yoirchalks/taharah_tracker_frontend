@@ -20,4 +20,15 @@ export class AsyncValidators {
       );
     };
   };
+
+  emailInUse = (): AsyncValidatorFn => {
+    return (control: AbstractControl) => {
+      let email = control.value;
+      email = normalizeEmail(email);
+      return this.userService.checkEmailUnique(email).pipe(
+        map((isUnique) => (isUnique ? { emailNotInUse: true } : null)),
+        catchError(() => of({ emailCheckFailed: true }))
+      );
+    };
+  };
 }
