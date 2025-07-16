@@ -36,9 +36,7 @@ export class LoginService {
     this.httpService.post(`${this.baseUrl}/otp`, data).pipe(
       catchError((err) => {
         return throwError(() => {
-          new Error(
-            err.error.message || err.message || 'log in attempt failed'
-          );
+          new Error(err.error.message || err.message || 'otp attempt failed');
         });
       })
     );
