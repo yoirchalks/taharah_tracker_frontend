@@ -29,10 +29,11 @@
       </div>
       }@else if(emailInvalidError){
       <div class="error">Please enter a valid email address</div>
-      } @else if (emailTaken) {
+      } @else if (emailNotFound) {
       <div class="error">
         <p>
-          This email address is already in use. Please entre a different address
+          Email address does not match a user. Please sign up with this email
+          address or log in with a different email.
         </p>
       </div>
       } @else if (emailCheckFailed) {
