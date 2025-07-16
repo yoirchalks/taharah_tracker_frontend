@@ -9,6 +9,8 @@ import { AsyncValidators } from '../../shared/validators/async.validators';
 import { passwordRequirements } from '../../shared/validators/sync.validators';
 import { MatTabGroup } from '@angular/material/tabs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { LoginService } from './login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-log-in',
@@ -21,6 +23,9 @@ export class LogInComponent {
   passwordVisible = false;
   formSubmitted = false;
   passwordValid = signal(false);
+  router = inject(Router);
+
+  logInService = inject(LoginService);
 
   method = signal<'password' | 'otp'>('password');
 
@@ -93,11 +98,21 @@ export class LogInComponent {
   }
 
   onSubmitForm() {
-    console.log('button clicked');
-
     if (!this.signUpForm.valid || this.emailPending) {
       this.formSubmitted = true;
       return;
+    }
+
+    const email = this.email.value as string;
+
+    if (this.method() === 'password') {
+      const password = this.password.value as string;
+      this.logInService
+        .logIn({ email, password, requestingOtp: false })
+        .subscribe({
+          next: () => this.router.navigate([]), //TODO: add navigate here
+          error: (err) => alert(err),
+        });
     }
   }
 }
