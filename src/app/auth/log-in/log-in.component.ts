@@ -62,7 +62,7 @@ export class LogInComponent {
   public get emailTaken() {
     return (
       (this.email.touched || this.formSubmitted) &&
-      this.email.hasError?.('emailTaken')
+      this.email.hasError?.('emailNotInUse')
     );
   }
 
