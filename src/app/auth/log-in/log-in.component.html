@@ -1,1 +1,45 @@
-<button><a></a></button>
+<div class="form-container">
+  <mat-button-toggle-group
+    [value]="signInMethod()"
+    (valueChange)="signInMethod.set($event)"
+    class="mb-4 button-group"
+  >
+    <mat-button-toggle class="toggle-button" value="password"
+      >Password</mat-button-toggle
+    >
+    <mat-button-toggle class="toggle-button" value="OTP">OTP</mat-button-toggle>
+  </mat-button-toggle-group>
+
+  <form (submit)="onSubmit()">
+    <div class="control-container">
+      <label for="email">Email</label>
+      <mat-form-field class="input">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          type="email"
+          name="email"
+          id="email"
+          autocomplete="email"
+        />
+      </mat-form-field>
+    </div>
+    @if(signInMethod()==='password'){
+    <div class="control-container">
+      <label for="password">Password</label>
+      <mat-form-field class="input">
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          name="password"
+          id="password"
+          autocomplete="current-password"
+        />
+      </mat-form-field>
+    </div>
+    }
+    <button>
+      {{ signInMethod() === "password" ? "Log In" : "Request OTP" }}
+    </button>
+  </form>
+</div>
