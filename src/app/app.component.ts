@@ -4,6 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { FooterComponent } from './footer/footer.component';
 import { ThemeService } from './shared/services/theme.service';
 import { OverlayContainer } from '@angular/cdk/overlay';
+import { OtpComponent } from './auth/otp/otp.component';
 
 @Component({
   selector: 'app-root',
