@@ -10,7 +10,7 @@ import { passwordRequirements } from '../../shared/validators/sync.validators';
 import { MatTabGroup } from '@angular/material/tabs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { LoginService } from './login.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-log-in',
@@ -26,6 +26,7 @@ export class LogInComponent {
   router = inject(Router);
 
   logInService = inject(LoginService);
+  route = inject(ActivatedRoute);
 
   method = signal<'password' | 'otp'>('password');
 
@@ -110,9 +111,20 @@ export class LogInComponent {
       this.logInService
         .logIn({ email, password, requestingOtp: false })
         .subscribe({
-          next: () => this.router.navigate([]), //TODO: add navigate here
+          next: () => this.router.navigate(['../../home']), //TODO: add navigate here
           error: (err) => alert(err),
         });
+    } else {
+      this.logInService.logIn({ email, requestingOtp: true }).subscribe({
+        next: (data: any) => {
+          const { userId, otpId } = data;
+          this.router.navigate(['../otp'], {
+            relativeTo: this.route,
+            state: { otpId, userId },
+          });
+        },
+        error: (err) => alert(err),
+      });
     }
   }
 }
