@@ -1,6 +1,7 @@
 import { Component, inject, signal, ViewChild } from '@angular/core';
 import { NgOtpInputComponent, NgOtpInputModule } from 'ng-otp-input';
 import { LoginService } from '../log-in/login.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-otp',
   imports: [NgOtpInputModule],
@@ -10,7 +11,18 @@ import { LoginService } from '../log-in/login.service';
 export class OtpComponent {
   @ViewChild(NgOtpInputComponent) otpInput!: NgOtpInputComponent;
 
+  userId?: string;
+  otpId?: string;
+
   loginService = inject(LoginService);
+  router = inject(Router);
+
+  constructor() {
+    const nav = this.router.getCurrentNavigation();
+    const state = nav?.extras.state as { userId: string; otpId: string };
+    this.userId = state.userId;
+    this.otpId = state.otpId;
+  }
 
   otpConfig = {
     length: 6,
@@ -32,9 +44,13 @@ export class OtpComponent {
   }
 
   submitOtp(otp: number) {
-    this.loginService.submitOtp({ OTP: otp }).subscribe({
-      next: () => {},
-      error: (err) => alert(err),
-    });
+    if (this.userId && this.otpId) {
+      this.loginService
+        .submitOtp({ userId: this.userId, otpId: this.otpId, OTP: otp })
+        .subscribe({
+          next: () => {}, //TODO: set up routes for home and add here and in login page
+          error: (err) => alert(err),
+        });
+    }
   }
 }

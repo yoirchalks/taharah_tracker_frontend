@@ -10,7 +10,7 @@ interface LogInData {
 
 interface OTPData {
   userId: string;
-  id: string;
+  otpId: string;
   OTP: number;
 }
 
