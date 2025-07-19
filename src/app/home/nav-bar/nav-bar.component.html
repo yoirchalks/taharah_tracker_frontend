@@ -1,7 +1,19 @@
 <nav>
-  <div class="left-section"></div>
+  <div class="left-section">
+    <button mat-flat-button routerLink="calendar">
+      <mat-icon>calendar_month</mat-icon>Calendar
+    </button>
+    <button mat-flat-button routerLink="history">
+      <mat-icon>history</mat-icon>History
+    </button>
+    <button mat-flat-button routerLink="aboutUs">
+      <mat-icon>info</mat-icon>About Us
+    </button>
+  </div>
   <div class="right-section">
-    <button>Log Out</button>
-    <button>Options</button>
+    <button (click)="onLogOut()" mat-flat-button>
+      <mat-icon>logout</mat-icon>
+    </button>
+    <button mat-flat-button><mat-icon>settings</mat-icon></button>
   </div>
 </nav>

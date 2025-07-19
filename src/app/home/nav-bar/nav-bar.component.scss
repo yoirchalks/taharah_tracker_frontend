@@ -1,0 +1,23 @@
+nav {
+  height: 18%;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.left-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.left-section button {
+  height: 100%;
+}
+
+.right-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
+}
