@@ -1,4 +1,3 @@
-// theme.service.ts
 import { Injectable, effect, signal } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
@@ -12,13 +11,11 @@ export class ThemeService {
     this._theme.update((t) => (t === 'dark' ? 'light' : 'dark'));
   }
 
-  /** For components that just need the string once */
   get current() {
     return this._theme();
   }
 
   constructor() {
-    // Persist every change
     effect(() => localStorage.setItem('theme', this._theme()));
   }
 }
