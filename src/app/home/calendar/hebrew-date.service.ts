@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import zmanim from './zmanim.model';
+import ZmanimData from './zmanim.model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,12 +13,12 @@ export class HebrewDateService {
 
   async getShkiah(date: string) {
     const url = this.baseUrl + date;
-    const response = await firstValueFrom(this.http.get<zmanim>(url));
+    const response = await firstValueFrom(this.http.get<ZmanimData>(url));
     return response.times.sunset;
   }
   async getAlos(date: string) {
     const url = this.baseUrl + date;
-    const response = await firstValueFrom(this.http.get<zmanim>(url));
+    const response = await firstValueFrom(this.http.get<ZmanimData>(url));
     return response.times.alotHaShachar;
   }
 }
