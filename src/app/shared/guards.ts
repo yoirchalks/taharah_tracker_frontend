@@ -23,7 +23,7 @@ export class authGuard implements CanMatch {
       })
       .pipe(
         map(() => true),
-        catchError(() => of(this.router.parseUrl('')))
+        catchError(() => of(this.router.parseUrl('/auth/home')))
       );
   }
 }
