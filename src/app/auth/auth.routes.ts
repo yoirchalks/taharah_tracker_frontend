@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { AuthComponent } from './auth.component';
+import { CanDeactivateGuard } from '../shared/guards/canDeactivate';
 
 const routes: Routes = [
   {
@@ -24,6 +25,7 @@ const routes: Routes = [
         path: 'signUp',
         loadComponent: () =>
           import('./sign-up/sign-up.component').then((m) => m.SignUpComponent),
+        canDeactivate: [CanDeactivateGuard],
       },
       {
         path: 'otp',

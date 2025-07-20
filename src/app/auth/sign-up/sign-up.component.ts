@@ -11,6 +11,11 @@ import {
   passwordsMatch,
 } from '../../shared/validators/sync.validators';
 import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
+import { CanComponentDeactivate } from '../../shared/guards/canDeactivate';
+import { LeavePageDialogComponent } from '../../shared/leave-page-dialog/leave-page-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { of, tap } from 'rxjs';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-sign-up',
@@ -18,7 +23,7 @@ import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.css',
 })
-export class SignUpComponent {
+export class SignUpComponent implements CanComponentDeactivate {
   asyncValidators = inject(AsyncValidators);
   passwordVisible = false;
   repeatPasswordVisible = false;
@@ -193,5 +198,30 @@ export class SignUpComponent {
         this.repeatPassword.disable({ emitEvent: false });
       }
     });
+  }
+
+  readonly dialog = inject(MatDialog);
+  location = inject(Location);
+
+  openDialog = () => {};
+
+  canDeactivate() {
+    if (!this.signUpForm.dirty) {
+      return of(true);
+    }
+
+    const dialogRef = this.dialog.open(LeavePageDialogComponent, {
+      data: {
+        title: 'Data Not Saved',
+        message: 'are you sure you want to leave',
+      },
+    });
+    return dialogRef.afterClosed().pipe(
+      tap((confirmed) => {
+        if (!confirmed) {
+          this.location.go(window.location.pathname);
+        }
+      })
+    );
   }
 }
