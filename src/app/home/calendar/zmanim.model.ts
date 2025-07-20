@@ -1,4 +1,4 @@
-export default interface hebcalZmain {
+export default interface HebcalZmain {
   date: string;
   location: {
     title: string;
