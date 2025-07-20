@@ -17,7 +17,7 @@ export class authGuard implements CanMatch {
   httpService = inject(HttpClient);
   router = inject(Router);
   canMatch(route: Route, segments: UrlSegment[]): MaybeAsync<GuardResult> {
-    this.httpService
+    return this.httpService
       .get('https://taharah-tracker-backend.onrender.com/api/authChack', {
         withCredentials: true,
       })
@@ -25,6 +25,5 @@ export class authGuard implements CanMatch {
         map(() => true),
         catchError(() => of(this.router.parseUrl('')))
       );
-    return false;
   }
 }
