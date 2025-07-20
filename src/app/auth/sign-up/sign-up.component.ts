@@ -12,7 +12,10 @@ import {
 } from '../../shared/validators/sync.validators';
 import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 import { CanComponentDeactivate } from '../../shared/guards/canDeactivate';
-import { Observable } from 'rxjs';
+import { LeavePageDialogComponent } from '../../shared/leave-page-dialog/leave-page-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { of, tap } from 'rxjs';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-sign-up',
@@ -197,10 +200,28 @@ export class SignUpComponent implements CanComponentDeactivate {
     });
   }
 
+  readonly dialog = inject(MatDialog);
+  location = inject(Location);
+
+  openDialog = () => {};
+
   canDeactivate() {
-    if (this.signUpForm.dirty) {
-      return confirm('Unsaved data. Are you sure you want to quit');
+    if (!this.signUpForm.dirty) {
+      return of(true);
     }
-    return true;
+
+    const dialogRef = this.dialog.open(LeavePageDialogComponent, {
+      data: {
+        title: 'Data Not Saved',
+        message: 'are you sure you want to leave',
+      },
+    });
+    return dialogRef.afterClosed().pipe(
+      tap((confirmed) => {
+        if (!confirmed) {
+          this.location.go(window.location.pathname);
+        }
+      })
+    );
   }
 }
