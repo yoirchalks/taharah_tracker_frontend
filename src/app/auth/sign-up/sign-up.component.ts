@@ -11,6 +11,8 @@ import {
   passwordsMatch,
 } from '../../shared/validators/sync.validators';
 import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
+import { CanComponentDeactivate } from '../../shared/guards/canDeactivate';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-sign-up',
@@ -18,7 +20,7 @@ import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.css',
 })
-export class SignUpComponent {
+export class SignUpComponent implements CanComponentDeactivate {
   asyncValidators = inject(AsyncValidators);
   passwordVisible = false;
   repeatPasswordVisible = false;
@@ -193,5 +195,12 @@ export class SignUpComponent {
         this.repeatPassword.disable({ emitEvent: false });
       }
     });
+  }
+
+  canDeactivate() {
+    if (this.signUpForm.dirty) {
+      return confirm('Unsaved data. Are you sure you want to quit');
+    }
+    return true;
   }
 }
