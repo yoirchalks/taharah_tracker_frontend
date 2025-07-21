@@ -23,6 +23,7 @@
     "@fullcalendar/core": "^6.1.18",
     "@fullcalendar/daygrid": "^6.1.18",
     "@fullcalendar/interaction": "^6.1.18",
+    "@hebcal/core": "^5.10.0",
     "ng-otp-input": "^2.0.8",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
