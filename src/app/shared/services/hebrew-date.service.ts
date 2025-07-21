@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import ZmanimData from './zmanim.model';
+import ZmanimData from '../models/zmanim.model';
 
 @Injectable({
   providedIn: 'root',
