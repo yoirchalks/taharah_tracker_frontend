@@ -6,6 +6,8 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { HebrewDateService } from '../../shared/services/hebrew-date.service';
 
+import { HDate } from '@hebcal/core';
+
 @Component({
   selector: 'app-calendar',
   imports: [FullCalendarModule],
@@ -19,6 +21,18 @@ export class CalendarComponent implements OnInit {
     timeZone: 'Asia/Jerusalem',
     plugins: [dayGridPlugin, interactionPlugin],
     selectable: true,
+    showNonCurrentDates: false,
+    dayCellDidMount: (args) => {
+      const date = args.date;
+      const hDate = new HDate(date);
+
+      const hebDiv = document.createElement('div');
+      hebDiv.innerText = `${hDate.getDate()} ${hDate.getMonthName()}`;
+      hebDiv.style.fontSize = '0.65em';
+      hebDiv.style.textAlign = 'right'; //move proper to corner and and space bottom
+
+      args.el.querySelector('.fc-daygrid-day-top')?.appendChild(hebDiv);
+    },
   };
 
   async ngOnInit() {
