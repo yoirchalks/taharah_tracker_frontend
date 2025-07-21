@@ -4,7 +4,6 @@ import { RouterOutlet } from '@angular/router';
 import { FooterComponent } from './footer/footer.component';
 import { ThemeService } from './shared/services/theme.service';
 import { OverlayContainer } from '@angular/cdk/overlay';
-import { OtpComponent } from './auth/otp/otp.component';
 
 @Component({
   selector: 'app-root',
@@ -32,7 +31,7 @@ export class AppComponent {
       oc.remove('light-theme', 'dark-theme');
       oc.add(`${theme}-theme`);
 
-      document.body.style.colorScheme = theme; // ‘light’ | ‘dark’
+      document.body.style.colorScheme = theme;
     });
   }
 }
