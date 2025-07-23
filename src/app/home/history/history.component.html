@@ -1,1 +1,54 @@
-<p>history works!</p>
+<!-- periods-table.component.html -->
+<mat-card>
+  <mat-card-title>Periods</mat-card-title>
+
+  <form [formGroup]="filterForm" class="filters" (ngSubmit)="loadData()">
+    <mat-form-field appearance="outline">
+      <mat-label>Start Date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="startPicker"
+        formControlName="startDate"
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="startPicker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #startPicker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>End Date</mat-label>
+      <input matInput [matDatepicker]="endPicker" formControlName="endDate" />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="endPicker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #endPicker></mat-datepicker>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit">Apply</button>
+  </form>
+
+  @if (periods().length > 0) {
+  <table mat-table [dataSource]="periods()" class="mat-elevation-z8">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+    <tr mat-row *matRowDef="let row; columns: columns"></tr>
+  </table>
+  } @else {
+  <p class="text-muted">No results found.</p>
+  }
+
+  <mat-paginator
+    [length]="total()"
+    [pageSize]="limit()"
+    [pageSizeOptions]="[5, 10, 25]"
+    (page)="onPageChange($event)"
+  >
+  </mat-paginator>
+</mat-card>
