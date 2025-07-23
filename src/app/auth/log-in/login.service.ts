@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { catchError, map, throwError } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 interface LogInData {
   email: string;
@@ -19,7 +20,7 @@ interface OTPData {
 })
 export class LoginService {
   httpService = inject(HttpClient);
-  baseUrl = 'https://taharah-tracker-backend.onrender.com/api';
+  baseUrl = environment.apiUrl;
 
   logIn = (data: LogInData) => {
     return this.httpService.post(`${this.baseUrl}/logIns`, data).pipe(

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 interface LogInData {
   email: string;
@@ -23,7 +24,7 @@ interface OTPData {
 })
 export class AuthService {
   private http = inject(HttpClient);
-  private baseUrl = 'https://taharah-tracker-backend.onrender.com/api';
+  private baseUrl = environment.apiUrl;
 
   // signal to hold current userId (null when logged out)
   private _userId = signal<string | null>(null);

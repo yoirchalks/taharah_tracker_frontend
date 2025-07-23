@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { filter, map, Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,7 @@ export class PeriodsService {
   periods = this.periods$.asReadonly();
 
   httpService = inject(HttpClient);
-  url = 'https://taharah-tracker-backend.onrender.com/api/periods';
+  url = `${environment.apiUrl}/periods`;
 
   postPeriod(type: string, date: string) {
     this.httpService.post(this.url, { periodType: type, dateTime: date });

@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
   httpService = inject(HttpClient);
-  rootUrl = 'https://taharah-tracker-backend.onrender.com/api';
+  rootUrl = environment.apiUrl;
 
   private _userId = signal<string | null>(null);
   userId = this._userId.asReadonly();

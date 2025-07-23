@@ -13,6 +13,7 @@ import {
   UrlTree,
 } from '@angular/router';
 import { catchError, map, Observable, of } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +27,7 @@ export class authGuard implements CanMatch {
     segments: UrlSegment[]
   ): Observable<boolean | UrlTree> {
     return this.httpService
-      .get('https://taharah-tracker-backend.onrender.com/api/authChack', {
+      .get(`${environment.apiUrl}/authCheck`, {
         withCredentials: true,
       })
       .pipe(
