@@ -1,8 +1,6 @@
 import { Routes } from '@angular/router';
 import { AuthComponent } from './auth/auth.component';
 import authRoutes from './auth/auth.routes';
-import homeRoutes from './home/home.routes';
-import { HomeComponent } from './home/home.component';
 import { authGuard } from './shared/guards/canMatch';
 
 const routes: Routes = [
@@ -18,9 +16,8 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    component: HomeComponent,
-    children: homeRoutes,
     canMatch: [authGuard],
+    loadChildren: () => import('./home/home.routes').then((m) => m.default),
   },
 ];
 
