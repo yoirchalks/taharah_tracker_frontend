@@ -224,4 +224,8 @@ export class SignUpComponent implements CanComponentDeactivate {
       })
     );
   }
+
+  onModalExit(value: any) {
+    this.modalActive = value;
+  }
 }

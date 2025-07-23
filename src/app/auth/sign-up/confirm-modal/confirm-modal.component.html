@@ -1,9 +1,10 @@
 <app-modal>
-  <div class="container">
+  <div (clickOut)="onExit()" class="container">
     <h2>Please confirm your details before continuing.</h2>
     <p>To return press back arrow or click outside the box.</p>
     <p>Name: {{ name() }}</p>
     <p>Email: {{ email() }}</p>
     <button (click)="onConfirm()">Submit</button>
+    <button (click)="onExit()">Return</button>
   </div>
 </app-modal>

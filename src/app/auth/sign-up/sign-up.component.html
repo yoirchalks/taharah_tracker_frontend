@@ -1,4 +1,4 @@
-<div class="form-container">
+<div (exitModal)="onModalExit($event)" class="form-container">
   <h1>Begin Your Journey Here</h1>
 
   <form (ngSubmit)="onSubmitForm()" [formGroup]="signUpForm">
