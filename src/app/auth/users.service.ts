@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
@@ -8,6 +8,9 @@ import { catchError, map, Observable, tap, throwError } from 'rxjs';
 export class UsersService {
   httpService = inject(HttpClient);
   rootUrl = 'https://taharah-tracker-backend.onrender.com/api';
+
+  private _userId = signal<string | null>(null);
+  userId = this._userId.asReadonly();
 
   constructor() {}
 
@@ -31,16 +34,21 @@ export class UsersService {
   }
 
   postNewUser(userData: { email: string; name: string; password: string }) {
-    return this.httpService.post(`${this.rootUrl}/signUps`, userData).pipe(
-      tap(() => console.log('post user service called')),
-      catchError((err) => {
-        return throwError(
-          () =>
-            new Error(
-              err?.error?.message || err.message || 'Failed to sign up user'
-            )
-        );
-      })
-    );
+    return this.httpService
+      .post<{ userId: string }>(`${this.rootUrl}/signUps`, userData)
+      .pipe(
+        catchError((err) => {
+          return throwError(
+            () =>
+              new Error(
+                err?.error?.message || err.message || 'Failed to sign up user'
+              )
+          );
+        })
+      );
+  }
+
+  clearUserId() {
+    this._userId.set(null);
   }
 }

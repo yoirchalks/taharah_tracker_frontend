@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
+import { filter, map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -34,5 +35,36 @@ export class PeriodsService {
         next: (periods) => this.periods$.set(periods),
         error: (err) => alert(err),
       });
+  }
+
+  mockGetPeriods(
+    userId: string,
+    startDate: string,
+    endDate: string,
+    page: number,
+    limit: number
+  ): Observable<{ data: any[]; total: number }> {
+    return this.httpService.get<any[]>('/mockPeriods.json').pipe(
+      map((allPeriods) => {
+        const filtered = allPeriods.filter((p) => {
+          const date = new Date(p.period_dateTime);
+          return (
+            p.userId === userId &&
+            (!startDate || date >= new Date(startDate)) &&
+            (!endDate || date <= new Date(endDate))
+          );
+        });
+
+        // Paginate
+        const startIndex = (page - 1) * limit;
+        const endIndex = startIndex + limit;
+        const data = filtered.slice(startIndex, endIndex);
+
+        return {
+          data,
+          total: filtered.length,
+        };
+      })
+    );
   }
 }

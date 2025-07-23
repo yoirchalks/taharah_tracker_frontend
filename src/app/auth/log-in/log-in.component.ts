@@ -10,6 +10,7 @@ import { passwordRequirements } from '../../shared/validators/sync.validators';
 import { MatTabGroup } from '@angular/material/tabs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { LoginService } from './login.service';
+import { UsersService } from '../../shared/services/users.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -25,7 +26,7 @@ export class LogInComponent {
   passwordValid = signal(false);
   router = inject(Router);
 
-  logInService = inject(LoginService);
+  logInService = inject(UsersService);
   route = inject(ActivatedRoute);
 
   method = signal<'password' | 'otp'>('password');

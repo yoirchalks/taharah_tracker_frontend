@@ -42,6 +42,4 @@ export class LoginService {
       })
     );
   };
-
-  constructor() {}
 }

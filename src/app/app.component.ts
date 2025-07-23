@@ -5,11 +5,12 @@ import { FooterComponent } from './footer/footer.component';
 import { ThemeService } from './shared/services/theme.service';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { CalendarComponent } from './home/calendar/calendar.component';
+import { HistoryComponent } from './home/history/history.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, FooterComponent, CalendarComponent],
+  imports: [RouterOutlet, FooterComponent, HistoryComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
