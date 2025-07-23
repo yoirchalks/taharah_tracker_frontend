@@ -20,7 +20,7 @@ export class UsersService {
       .pipe(
         tap(() => console.log('service called')),
         map((res) => {
-          return !!res?.unique; // Defensive
+          return !!res?.unique;
         }),
         catchError((err) => {
           return throwError(

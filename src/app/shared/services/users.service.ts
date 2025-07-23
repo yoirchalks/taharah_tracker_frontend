@@ -15,7 +15,7 @@ interface LoginResponse {
 interface OTPData {
   userId: string;
   otpId: string;
-  OTP: number;
+  OTP?: number;
 }
 
 @Injectable({
@@ -25,7 +25,6 @@ export class UsersService {
   private http = inject(HttpClient);
   private baseUrl = 'https://taharah-tracker-backend.onrender.com/api';
 
-  // signal to hold current userId (null when logged out)
   private _userId = signal<string | null>(null);
   readonly userId = this._userId.asReadonly();
 
@@ -33,36 +32,37 @@ export class UsersService {
    * Attempt login (or request OTP if requestingOtp=true).
    * On success, sets this._userId.
    */
-  logIn(data: LogInData): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.baseUrl}/logIns`, data).pipe(
-      tap((res) => this._userId.set(res.userId)),
-      catchError((err) =>
-        throwError(
-          () =>
-            new Error(
-              err.error?.message || err.message || 'Log in attempt failed'
-            )
+  logIn(data: LogInData): Observable<LoginResponse | OTPData> {
+    return this.http
+      .post<LoginResponse | OTPData>(`${this.baseUrl}/logIns`, data)
+      .pipe(
+        tap((res) => this._userId.set(res.userId)),
+        catchError((err) =>
+          throwError(
+            () =>
+              new Error(
+                err.error?.message || err.message || 'Log in attempt failed'
+              )
+          )
         )
-      )
-    );
+      );
   }
 
   /**
    * Submit an OTP to complete login.
    */
-  submitOtp(data: OTPData): Observable<any> {
-    return this.http
-      .post<any>(`${this.baseUrl}/otp`, data)
-      .pipe(
-        catchError((err) =>
-          throwError(
-            () =>
-              new Error(
-                err.error?.message || err.message || 'OTP submission failed'
-              )
-          )
+  submitOtp(data: OTPData): Observable<LoginResponse> {
+    return this.http.post<any>(`${this.baseUrl}/otp`, data).pipe(
+      tap((user) => this._userId.set(user.userId)),
+      catchError((err) =>
+        throwError(
+          () =>
+            new Error(
+              err.error?.message || err.message || 'OTP submission failed'
+            )
         )
-      );
+      )
+    );
   }
 
   /**
