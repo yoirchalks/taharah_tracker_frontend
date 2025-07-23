@@ -16,6 +16,8 @@ export class ClickOutDirective {
   @HostListener('document:click', ['$event'])
   onClick(event: MouseEvent) {
     if (!this.elementRef.nativeElement.contains(event.target)) {
+      console.log('Click outside detected');
+
       this.clickOut.emit(event);
     }
   }
