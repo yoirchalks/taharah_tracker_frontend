@@ -27,9 +27,9 @@ export class AppComponent {
       this.renderer.removeClass(document.body, 'dark-theme');
       this.renderer.addClass(document.body, `${theme}-theme`);
 
-      const oc = this.overlay.getContainerElement().classList;
-      oc.remove('light-theme', 'dark-theme');
-      oc.add(`${theme}-theme`);
+      const overlayClassList = this.overlay.getContainerElement().classList;
+      overlayClassList.remove('light-theme', 'dark-theme');
+      overlayClassList.add(`${theme}-theme`);
 
       document.body.style.colorScheme = theme;
     });

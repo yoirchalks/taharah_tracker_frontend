@@ -24,10 +24,8 @@ $dark-theme: mat.m2-define-dark-theme(
   )
 );
 
-// 1. Global theme (light) without any class wrapper — only once in the whole app
 @include mat.all-component-themes($light-theme);
 
-// 2. Dark theme colors inside class wrapper — safe, no duplication
 .dark-theme {
   @include mat.all-component-colors($dark-theme);
 }
