@@ -4,8 +4,6 @@ import { RouterOutlet } from '@angular/router';
 import { FooterComponent } from './footer/footer.component';
 import { ThemeService } from './shared/services/theme.service';
 import { OverlayContainer } from '@angular/cdk/overlay';
-import { CalendarComponent } from './home/calendar/calendar.component';
-import { HistoryComponent } from './home/history/history.component';
 
 @Component({
   selector: 'app-root',

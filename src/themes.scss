@@ -1,9 +1,9 @@
 @use "@angular/material" as mat;
+
 @include mat.core();
 
 $blush-primary: mat.m2-define-palette(mat.$m2-pink-palette, 300, 100, 500);
 $rose-accent: mat.m2-define-palette(mat.$m2-red-palette, 100, 50, 200);
-
 $lavender-primary: mat.m2-define-palette(mat.$m2-purple-palette, 200, 100, 300);
 $sky-accent: mat.m2-define-palette(mat.$m2-indigo-palette, 100, 50, 200);
 
@@ -15,7 +15,6 @@ $light-theme: mat.m2-define-light-theme(
     ),
   )
 );
-
 $dark-theme: mat.m2-define-dark-theme(
   (
     color: (
@@ -25,9 +24,10 @@ $dark-theme: mat.m2-define-dark-theme(
   )
 );
 
-.light-theme {
-  @include mat.all-component-themes($light-theme);
-}
+// 1. Global theme (light) without any class wrapper — only once in the whole app
+@include mat.all-component-themes($light-theme);
+
+// 2. Dark theme colors inside class wrapper — safe, no duplication
 .dark-theme {
-  @include mat.all-component-themes($dark-theme);
+  @include mat.all-component-colors($dark-theme);
 }
