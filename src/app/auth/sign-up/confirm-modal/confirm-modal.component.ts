@@ -33,6 +33,8 @@ export class ConfirmModalComponent {
   }
 
   onExit() {
+    console.log('called onModalExit');
+
     this.exitModal.emit(true);
   }
 }
