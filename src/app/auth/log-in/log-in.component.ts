@@ -112,7 +112,8 @@ export class LogInComponent {
       this.logInService
         .logIn({ email, password, requestingOtp: false })
         .subscribe({
-          next: () => this.router.navigate(['../../home']), //TODO: add navigate here
+          next: () =>
+            this.router.navigate(['../../home'], { relativeTo: this.route }), //TODO: add navigate here
           error: (err) => alert(err),
         });
     } else {
