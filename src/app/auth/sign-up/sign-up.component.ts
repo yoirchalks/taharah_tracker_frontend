@@ -1,18 +1,23 @@
 import { Component, inject, signal } from '@angular/core';
+
 import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators as Val,
 } from '@angular/forms';
+
 import { AsyncValidators } from '../../shared/validators/async.validators';
+
 import {
   passwordRequirements,
   passwordsMatch,
 } from '../../shared/validators/sync.validators';
+
 import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 import { CanComponentDeactivate } from '../../shared/guards/canDeactivate';
 import { LeavePageDialogComponent } from '../../shared/leave-page-dialog/leave-page-dialog.component';
+
 import { MatDialog } from '@angular/material/dialog';
 import { of, tap } from 'rxjs';
 import { Location } from '@angular/common';
@@ -54,7 +59,7 @@ export class SignUpComponent implements CanComponentDeactivate {
           { value: '', disabled: true },
           {
             validators: [Val.required],
-            updateOn: 'blur',
+            updateOn: 'change',
           }
         ),
       },
