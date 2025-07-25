@@ -109,7 +109,7 @@
         </div>
         }
         <button (click)="onToggleRepeatPasswordHidden()">
-          {{ passwordVisible ? "hide password" : "show password" }}
+          {{ repeatPasswordVisible ? "hide password" : "show password" }}
         </button>
         @if(repeatPasswordEmpty){
         <div class="error"><p>Please repeat password</p></div>
@@ -124,7 +124,6 @@
 </div>
 @if(modalActive){
 <app-confirm-modal
-  (dataSaved)="onDataSaved()"
   [name]="name.value!"
   [email]="email.value!"
   [password]="password.value!"
