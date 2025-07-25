@@ -1,8 +1,9 @@
-import { Component, inject, input, output } from '@angular/core';
+import { Component, inject, input, OnDestroy, output } from '@angular/core';
 import { ModalComponent } from '../../../shared/modal/modal.component';
 import { UsersService } from '../../users.service';
 import { Router } from '@angular/router';
 import { ClickOutDirective } from '../../../shared/click-out.directive';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-confirm-modal',
@@ -13,11 +14,13 @@ import { ClickOutDirective } from '../../../shared/click-out.directive';
 export class ConfirmModalComponent {
   userService = inject(UsersService);
   router = inject(Router);
+
   name = input.required<string>();
   email = input.required<string>();
   password = input.required<string>();
 
   exitModal = output<boolean>();
+  dataSaved = output<void>();
 
   onConfirm() {
     this.userService
@@ -27,7 +30,10 @@ export class ConfirmModalComponent {
         password: this.password(),
       })
       .subscribe({
-        next: () => this.router.navigate(['auth/logIn']),
+        next: () => {
+          this.dataSaved.emit();
+          this.router.navigate(['auth/logIn']);
+        },
         error: (err) => alert(err),
       });
   }

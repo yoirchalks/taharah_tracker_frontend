@@ -35,6 +35,7 @@ export class SignUpComponent implements CanComponentDeactivate {
   formSubmitted = false;
   modalActive = false;
   passwordValid = signal(false);
+  dataSaved = signal(false);
 
   signUpForm = new FormGroup({
     name: new FormControl('', [
@@ -193,7 +194,8 @@ export class SignUpComponent implements CanComponentDeactivate {
       return;
     }
     this.modalActive = true;
-  } //TODO: work out why onsubmit is being triggered when press toggle repeat password
+  }
+
   constructor() {
     this.password.valueChanges.subscribe(() => {
       if (this.password.valid) {
@@ -208,9 +210,10 @@ export class SignUpComponent implements CanComponentDeactivate {
   readonly dialog = inject(MatDialog);
   location = inject(Location);
 
-  openDialog = () => {};
-
   canDeactivate() {
+    if (this.dataSaved() === true || this.signUpForm.pristine) {
+      return of(true);
+    }
     if (!this.signUpForm.dirty) {
       return of(true);
     }
@@ -232,5 +235,10 @@ export class SignUpComponent implements CanComponentDeactivate {
 
   onModalExit(value: any) {
     this.modalActive = value;
+  }
+
+  onDataSaved() {
+    this.signUpForm.markAsPristine();
+    this.dataSaved.set(true);
   }
 }
