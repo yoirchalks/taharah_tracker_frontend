@@ -23,6 +23,7 @@ export class ConfirmModalComponent {
   dataSaved = output<void>();
 
   onConfirm() {
+    this.dataSaved.emit();
     this.userService
       .postNewUser({
         name: this.name(),

@@ -31,7 +31,7 @@ export class LogInComponent {
 
   method = signal<'password' | 'otp'>('password');
 
-  signUpForm = new FormGroup({
+  logInForm = new FormGroup({
     email: new FormControl('', {
       validators: [Val.email, Val.required],
       asyncValidators: [this.asyncValidators.emailInUse()],
@@ -46,7 +46,7 @@ export class LogInComponent {
   });
 
   public get email() {
-    return this.signUpForm.controls.email;
+    return this.logInForm.controls.email;
   }
   public get emailEmpty() {
     return (
@@ -81,7 +81,7 @@ export class LogInComponent {
   }
 
   public get password() {
-    return this.signUpForm.controls.password;
+    return this.logInForm.controls.password;
   }
 
   public get passwordEmpty() {
@@ -100,7 +100,7 @@ export class LogInComponent {
   }
 
   onSubmitForm() {
-    if (!this.signUpForm.valid || this.emailPending) {
+    if (!this.logInForm.valid || this.emailPending) {
       this.formSubmitted = true;
       return;
     }
@@ -122,7 +122,7 @@ export class LogInComponent {
           const { userId, otpId } = data;
           this.router.navigate(['../otp'], {
             relativeTo: this.route,
-            state: { otpId, userId },
+            state: { otpId, userId }, //TODO:check if backend is responding w/ userid
           });
         },
         error: (err) => alert(err),

@@ -124,6 +124,7 @@
 </div>
 @if(modalActive){
 <app-confirm-modal
+  (dataSaved)="onDataSaved()"
   [name]="name.value!"
   [email]="email.value!"
   [password]="password.value!"

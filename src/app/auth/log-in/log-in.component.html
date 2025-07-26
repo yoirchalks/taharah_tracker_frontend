@@ -11,7 +11,7 @@
     <mat-button-toggle class="button" value="otp">OTP</mat-button-toggle>
   </mat-button-toggle-group>
 
-  <form (ngSubmit)="onSubmitForm()" [formGroup]="signUpForm">
+  <form (ngSubmit)="onSubmitForm()" [formGroup]="logInForm">
     <div class="control-container">
       <label for="email">Enter your email here</label>
       <input
@@ -23,24 +23,19 @@
       />
       @if(emailEmpty){
       <div class="error">This field is required</div>
-      } @else if (emailPending) {
-      <div class="error">
-        <p>Please wait whilst we check if your email address is available</p>
-      </div>
-      }@else if(emailInvalidError){
+      } @else if(emailInvalidError){
       <div class="error">Please enter a valid email address</div>
       } @else if (emailNotFound) {
       <div class="error">
         <p>
-          Email address does not match a user. Please sign up with this email
-          address or log in with a different email.
+          Email address does not match a user. Please sign up to continue with
+          this email address or log in with a different address.
         </p>
       </div>
       } @else if (emailCheckFailed) {
       <div class="error">
         <p>
-          We where unable to check for email availability. Please try again
-          later.
+          We where unable to check your email address. Please try again later.
         </p>
       </div>
       }
@@ -48,7 +43,7 @@
 
     @if (method()==='password') {
     <div class="control-container">
-      <label for="name">Enter password here</label>
+      <label for="name">Enter password </label>
       <input
         autocomplete="new-password"
         id="password"
@@ -66,7 +61,7 @@
     </div>
     }
 
-    <button [disabled]="!signUpForm.valid" type="submit">
+    <button [disabled]="!logInForm.valid" type="submit">
       {{ method() === "password" ? "Log In" : "Request OTP" }}
     </button>
   </form>
